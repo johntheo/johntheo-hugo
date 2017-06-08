@@ -29,4 +29,4 @@ python -m pip install librosa --no-cache-dir
 
 É isso ae pessoal!
 
-Espero que eu tenha ajudado.
+Espero que eu tenha ajudado. =)
