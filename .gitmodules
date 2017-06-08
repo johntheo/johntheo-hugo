@@ -1,0 +1,8 @@
+[submodule "public"]
+	path = public
+	url = https://github.com/johntheo/johntheo.github.io.git
+	branch = master
+[submodule "tranquilpeak"]
+	path = themes/tranquilpeak
+	url = https://github.com/kakawait/hugo-tranquilpeak-theme.git
+	branch = master

@@ -1,0 +1,24 @@
+language: go
+
+go:
+  - master
+
+install:
+  - go get github.com/spf13/hugo
+
+script:
+  - hugo # generate!
+
+deploy:
+  local_dir: public
+  repo: johntheo/johntheo.github.io
+  target_branch: master
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  email: john.theo.souza@gmail.com
+  name: "John Theo"
+  on:
+    branch: master
+    
+    

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Librosa on johntheology</title>
+    <link>http://johntheo.github.io/tags/librosa/index.xml</link>
+    <description>Recent content in Librosa on johntheology</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <atom:link href="http://johntheo.github.io/tags/librosa/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Anaconda, Librosa, Windows 10</title>
+      <link>http://johntheo.github.io/2017/06/anaconda-librosa-windows-10/</link>
+      <pubDate>Fri, 02 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://johntheo.github.io/2017/06/anaconda-librosa-windows-10/</guid>
+      <description>&lt;p&gt;Instalar alguns plugins que utilizam bibliotecas em C, nem sempre é simples com python. Se o ambiente não estiver redondo pode dar alguns problemas chatinhos de compilação.&lt;/p&gt;
+
+&lt;p&gt;Abaixo eu montei um passo-a-passo de como deixar o ambiente OK para instalar qualquer pacote que utilize bibliotecas em C. No meu teste estou utilizando a librosa(biblioteca para processamento de audio), mas pode ser aplicado a qualquer biblioteca como é o caso do theano(biblioteca de deep learning)&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Instale TDM GCC x64.&lt;/li&gt;
+&lt;li&gt;Instale Anaconda x64.&lt;/li&gt;
+&lt;li&gt;Na pasta no Anaconda, abra o próprio prompt que é fornecido(medida de segurança)&lt;/li&gt;
+&lt;li&gt;Execute conda update conda.&lt;/li&gt;
+&lt;li&gt;Execute conda update &amp;ndash;all.&lt;/li&gt;
+&lt;li&gt;Execute conda install mingw libpython.&lt;/li&gt;
+&lt;li&gt;Para instalar sua biblioteca(que tem código C por baixo dos panos) utilize o comando:
+&lt;code&gt;
+python -m pip install librosa --no-cache-dir
+&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;É isso ae pessoal!&lt;/p&gt;
+
+&lt;p&gt;Espero que eu tenha ajudado.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
