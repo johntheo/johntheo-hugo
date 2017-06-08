@@ -138,7 +138,7 @@ canonifyurls = true
   # and use relative url : `your-image.png`
   coverImage = "ep_naturalblack.png"
   #coverImage = "cover.jpg"
-  favicon = "favicon.png"
+  favicon = "images/favicon.png"
 
   # Display an image gallery at the end of a post which have photos variables (false: disabled, true: enabled)
   imageGallery = true
