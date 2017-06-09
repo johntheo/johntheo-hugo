@@ -287,7 +287,7 @@ if __name__ == "__main__":
     
 
 
-![png](post/img/output_14_1.png)
+![png](/post/img/output_14_1.png)
 
 Por hoje é isso. Espero que essa dica tenha ajudado a facilitar a sua vida.
 
