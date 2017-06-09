@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Resampy on johntheology</title>
-    <link>http://johntheo.github.io/tags/resampy/index.xml</link>
+    <link>https://johntheo.github.io/tags/resampy/index.xml</link>
     <description>Recent content in Resampy on johntheology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <atom:link href="http://johntheo.github.io/tags/resampy/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://johntheo.github.io/tags/resampy/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Anaconda, Librosa, Windows 10</title>
-      <link>http://johntheo.github.io/2017/06/anaconda-librosa-windows-10/</link>
+      <link>https://johntheo.github.io/2017/06/anaconda-librosa-windows-10/</link>
       <pubDate>Fri, 02 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://johntheo.github.io/2017/06/anaconda-librosa-windows-10/</guid>
+      <guid>https://johntheo.github.io/2017/06/anaconda-librosa-windows-10/</guid>
       <description>&lt;p&gt;Instalar alguns plugins que utilizam bibliotecas em C, nem sempre é simples com python. Se o ambiente não estiver redondo pode dar alguns problemas chatinhos de compilação.&lt;/p&gt;
 
 &lt;p&gt;Abaixo eu montei um passo-a-passo de como deixar o ambiente OK para instalar qualquer pacote que utilize bibliotecas em C. No meu teste estou utilizando a librosa(biblioteca para processamento de audio), mas pode ser aplicado a qualquer biblioteca como é o caso do theano(biblioteca de deep learning)&lt;/p&gt;

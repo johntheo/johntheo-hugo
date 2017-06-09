@@ -1,0 +1,898 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.19">
+    <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
+    <title>Tutorial DEAP</title>
+    <meta name="author" content="John Theo">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="images/favicon.png">
+    
+
+    
+    <meta name="description" content="Problema da fabricação de garrafas TL;DR
+Neste post eu quero mostrar a utilização de um framework para computação evolucionária chamado DEAP(Distributed Evolutionary Algorithms in Python). Como o nome já diz é uma lib de algoritmos evolucionários que podem ser rodados de forma distribuidas. Ah, e é em Python! =)
+Descobri esse framework quando fui buscar uma solução(em Python) que me auxiliasse em alguns trabalhos da disciplina de Computação Evolucionária que estava fazendo no mestrado.">
+    <meta property="og:description" content="Problema da fabricação de garrafas TL;DR
+Neste post eu quero mostrar a utilização de um framework para computação evolucionária chamado DEAP(Distributed Evolutionary Algorithms in Python). Como o nome já diz é uma lib de algoritmos evolucionários que podem ser rodados de forma distribuidas. Ah, e é em Python! =)
+Descobri esse framework quando fui buscar uma solução(em Python) que me auxiliasse em alguns trabalhos da disciplina de Computação Evolucionária que estava fazendo no mestrado.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Tutorial DEAP">
+    <meta property="og:url" content="/2017/04/tutorial-deap/">
+    <meta property="og:site_name" content="johntheology">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="johntheology">
+    <meta name="twitter:description" content="Problema da fabricação de garrafas TL;DR
+Neste post eu quero mostrar a utilização de um framework para computação evolucionária chamado DEAP(Distributed Evolutionary Algorithms in Python). Como o nome já diz é uma lib de algoritmos evolucionários que podem ser rodados de forma distribuidas. Ah, e é em Python! =)
+Descobri esse framework quando fui buscar uma solução(em Python) que me auxiliasse em alguns trabalhos da disciplina de Computação Evolucionária que estava fazendo no mestrado.">
+    
+      <meta name="twitter:creator" content="@john_theo">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/2e687bcb036188c2bdfe81b2398d80c3?s=640">
+    
+
+    
+      <meta property="og:image" content="//deap.readthedocs.io/en/master/_images/deap_long.png">
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" />
+    
+    
+    <link rel="stylesheet" href="https://johntheo.github.io/css/style-u6mk0ojoywresbx8iepslrmmhl4stuhrsxuwhkpwrkrx7mryjcaimasnk4pi.min.css" />
+    
+    
+
+    
+      
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-94125077-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="6">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://johntheo.github.io/">johntheology</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://johntheo.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/2e687bcb036188c2bdfe81b2398d80c3?s=90" alt="Foto do autor" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="6">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://johntheo.github.io/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/2e687bcb036188c2bdfe81b2398d80c3?s=110" alt="Foto do autor" />
+        </a>
+        <h4 class="sidebar-profile-name">John Theo</h4>
+        
+          <h5 class="sidebar-profile-bio">Misturando arte com tecnologia para dar novas cores ao cotidiano</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://johntheo.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Início</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://johntheo.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categorias</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://johntheo.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://johntheo.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">Sobre</span>
+    </a>
+  </li>
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/john_theo" target="_blank">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/johntheo" target="_blank">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://johntheo.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="6"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Tutorial DEAP
+    </h1>
+  
+  <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="2017-04-05T00:00:00Z">
+      
+  
+  
+  
+  
+    5 Abril 2017
+  
+
+    </time>
+  
+  
+
+</div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<h1 id="problema-da-fabricação-de-garrafas">Problema da fabricação de garrafas</h1>
+
+<p>TL;DR</p>
+
+<p>Neste post eu quero mostrar a utilização de um framework para computação evolucionária chamado <a href="https://github.com/deap/deap">DEAP</a>(Distributed Evolutionary Algorithms in Python). Como o nome já diz é uma lib de algoritmos evolucionários que podem ser rodados de forma distribuidas. Ah, e é em Python! =)</p>
+
+<p>Descobri esse framework quando fui buscar uma solução(em Python) que me auxiliasse em alguns trabalhos da disciplina de Computação Evolucionária que estava fazendo no mestrado. Confesso que no inicio demorei para pegar o jeito, pois a biblioteca tem uma forma peculiar de definir os operadores e funções. Porém depois de compreendido, não quis outra vida! se torna natural pensar nas soluções. Just sit and code!</p>
+
+<p>O que coloco abaixo é um Toy Problem sugerido pelo professor da disciplina. O notebook que eu fiz pode ser encontrado nesse <a href="https://github.com/johntheo/MESTRADO/blob/master/disciplinas/computacao_evolucionaria/Projetos/Tutorial-DEAP.ipynb">link</a> e tem praticamente o conteudo abaixo(que exportei para colocar aqui no blog)</p>
+
+<h2 id="descriçâo-do-problema">DESCRIÇÂO DO PROBLEMA</h2>
+
+<p>Você gerencia uma fábrica de garrafas plásticas que tem apenas uma máquina extrusora. Esta máquina pode funcionar até 60 horas por semanda, isto é, 6 dias por semana com jornada de 10 horas por dia. A máquina é capaz de produzir dois tipos de garrafas plásticas: tipo &ldquo;leite&rdquo; e tipo &ldquo;suco&rdquo;. Toda a produção semanal de garrafas plásticas é armazenada temporariamente num depósito. No domingo toda a produção é despachada para os compradores e o depósito é esvaziado completamente.</p>
+
+<p>A linha de produção leva 6 horas para produzir 100 garrafas tipo leite e 5 horas para produzir 100 garrafas tipo suco. Cada Carrafa tipo leite ocupa 10 unidades cúbicas de espaço no depósito, enquanto que a garrafa de tipo suco ocupa 20 unidades cúbicas. O depósito tem capacidade máxima de 15000 unidades cúbicas.</p>
+
+<p>A contribuição no lucro final da empresa por garrafa tipo leite é de 5 unidades monetárias e por garrafa tipo suco é de 4,5. O departamento de vendas tem contratos de fornecimento capazes de absorver toda a produção possível de garrafas tipo suco, porém tem compradores somente para 800 garrafastipo leite por semana.</p>
+
+<p>Você deve estabelecer qual é o plano de produção mais adequado para maximizar o lucro total da empresa, isto é, quantas garrafas tipo Leite e quantos tipoo Suco devem ser produzidas semanalmente.</p>
+
+<h3 id="import-dos-pacotes">Import dos pacotes</h3>
+
+<p>O DEAP fornece várias bibliotecas que facilitam o trabalho e deverão ser importadas:<br />
+- base:
+- creator:
+- tools:
+- algorithms:</p>
+
+<p>Outras blibliotecas auxiliares serão utilizadas nesse tutorial:
+- random:
+- numpy:</p>
+
+<pre><code class="language-python">import random
+import numpy
+from deap import base
+from deap import creator
+from deap import tools
+from deap import algorithms
+
+# INIT
+toolbox = base.Toolbox()
+</code></pre>
+
+<h3 id="natureza-do-problema">Natureza do problema</h3>
+
+<p>Como se trata de um problema de maximização criamos essa função conforme a especificação do DEAP</p>
+
+<pre><code class="language-python">creator.create(&quot;FitnessMax&quot;, base.Fitness, weights=(1.0,))
+</code></pre>
+
+<h3 id="individuos-e-população">Individuos e população</h3>
+
+<p>Cada problema necessita uma forma particular de modelar o individuo, bem como a população deve ser gerada. Sendo assim os passos que devemos fazer no DEAP são:
+- Definir estrutura do individuo(list, set, etc)
+- Definir a função que irá gerar os alelos
+- Definir a função que irá gerar os individuos
+- Definir a função que irá gerar a popuulação</p>
+
+<pre><code class="language-python"># Definindo a estrutura do indivíduo
+IND_SIZE = 20  # Tamanho do individuo - 10 para cada gene
+GENES = 2
+creator.create(&quot;Individual&quot;, list, fitness=creator.FitnessMax)
+
+# funcao para gerar o gene com alelos 0 ou 1 randomicamente uniforme
+toolbox.register(&quot;attr_bool&quot;, random.randint, 0, 1)
+
+# funcao para gerar o indivíduo (nome, forma de gerar, Estrutura, funcao geradora, tamanho)
+toolbox.register(&quot;individual&quot;, tools.initRepeat, creator.Individual, toolbox.attr_bool, n=IND_SIZE)
+
+# funcao para gerar a populacao
+toolbox.register(&quot;population&quot;, tools.initRepeat, list, toolbox.individual)
+</code></pre>
+
+<h3 id="função-de-fitness">Função de fitness</h3>
+
+<p>Essa função ao contrário das outras que são produzidas quase que parametricamente, deve ser impllementada manualmente. Nela é onde o individuo receberá o valor de fitness que corresponde à modelagem funcional do problem. Para o caso deste exemplo em questão temos:</p>
+
+<pre><code class="language-python"># funcao de fitness
+def evaluate(individual):
+    l = int(&quot;&quot;.join(str(i) for i in individual[:int(IND_SIZE/GENES)]), 2)    # gene quantidade de garrafas de leite
+    s = int(&quot;&quot;.join(str(i) for i in individual[int(IND_SIZE/GENES):]), 2)    # gene quantidade de garrafas de suco
+    g = (5 * l + 4.5 * s) / 9718.5                                           # funcao objetivo normalizada [0,1]
+    h1 = max(0, ((6 * l + 5 * s) / 100 - 60)) / 52.53                        # funcao de restricao 1 normalizada [0,1]
+    h2 = max(0, (10 * l + 20 * s - 15000)) / 15690                           # funcao de restricao 2 normalizada [0,1]
+    h3 = max(0, (l - 800)) / 223                                             # funcao de restricao 3 normalizada [0,1]
+    h4 = max(0, (s - 750)) / 273                                             # funcao de restricao 4 normalizada [0,1]
+    return g - 2*(h1+h2+h3+h4)/4,                                            # fitness normalizado [0,1]
+</code></pre>
+
+<h3 id="operadores">Operadores</h3>
+
+<p>Para o DEAP são considerados como operadores:
+- evaluate: operador para realizar o cálculo de fitness do indivíduo
+- mate: operador para realizar cross over de indivíduos
+- mutate: operador para realizar a mutação dos
+- select: operador para selecionar os melhores de uma geração para outra</p>
+
+<p>Cada um desses operadores deve ser registrado. Seguindo a documentação do DEAP, damos um nome para o operador, seguido da função que ele irá realizar, seguido dos parametros dessa função</p>
+
+<pre><code class="language-python"># registra funcao de fitness
+toolbox.register(&quot;evaluate&quot;, evaluate)
+
+# registra crossOver
+toolbox.register(&quot;mate&quot;, tools.cxTwoPoint)
+
+# registra mutacao com probabilidade default de mudar cada gene de 5%
+toolbox.register(&quot;mutate&quot;, tools.mutFlipBit, indpb=0.05)
+
+# registra o metodo de selecao como torneio de tamanho 3
+toolbox.register(&quot;select&quot;, tools.selTournament, tournsize=3)
+</code></pre>
+
+<h3 id="funções-adicionais">Funções adicionais</h3>
+
+<p>Dependendo de cada caso, podemos desejar mostrar relatórios específicos. Para esse problema, criamos duas funçõs. Uma para imprimir os dados de um indivíduo e outra para plotar o gráfico das evoluções das gerações.</p>
+
+<pre><code class="language-python">#Imprimir indivíduo
+def print_ind(individual):
+    l = int(&quot;&quot;.join(str(i) for i in individual[:int(IND_SIZE / GENES)]), 2)  # gene quantidade de garrafas de leite
+    s = int(&quot;&quot;.join(str(i) for i in individual[int(IND_SIZE / GENES):]), 2)  # gene quantidade de garrafas de suco
+    g = 5*l + 4.5*s
+    print('Individuo:' + str(individual))
+    print('Quantidade de garrafas de leite: ' + str(l))
+    print('Quantidade de garrafas de suco: ' + str(s))
+    print('Lucro: ' + str(g))
+
+#Plotar Gráfico
+def plot_log(logbook):
+    gen = logbook.select(&quot;gen&quot;)
+    min = logbook.select(&quot;min&quot;)
+    avg = logbook.select(&quot;avg&quot;)
+    max = logbook.select(&quot;max&quot;)
+
+    import matplotlib.pyplot as plt
+
+    fig, ax1 = plt.subplots()
+    line1 = ax1.plot(gen, min, &quot;b-&quot;, label=&quot;Minimum Fitness&quot;)
+    ax1.set_xlabel(&quot;Generation&quot;)
+    ax1.set_ylabel(&quot;Fitness&quot;, color=&quot;b&quot;)
+    for tl in ax1.get_yticklabels():
+        tl.set_color(&quot;b&quot;)
+
+    ax2 = ax1.twinx()
+    line2 = ax2.plot(gen, avg, &quot;g-&quot;, label=&quot;Average Fitness&quot;)
+    for tl in ax2.get_yticklabels():
+        tl.set_color(&quot;g&quot;)
+
+    ax3 = ax1.twinx()
+    line3 = ax3.plot(gen, max, &quot;y-&quot;, label=&quot;Maximum Fitness&quot;)
+    ax3.set_ylabel(&quot;Size&quot;)
+    for tl in ax3.get_yticklabels():
+        tl.set_color(&quot;y&quot;)
+
+    lns = line1 + line2 + line3
+    labs = [l.get_label() for l in lns]
+    ax1.legend(lns, labs, loc=&quot;center right&quot;)
+
+    plt.show()
+</code></pre>
+
+<h3 id="algoritmo">Algoritmo</h3>
+
+<p>Depois de definir toda a estrutura do nosso problema e o comportamento, faz-se necessário implementar o algoritmo que irá rodar. Essa implementação é composta dos parametros do Algoritmo Genético e a logica que manipula a população.</p>
+
+<p>No exemplo abaixo utilizamos uma implementação já fornecida pelo DEAP: o eaSimple que é um algoritmos do livro “Evolutionary Computation 1 : Basic Algorithms and Operators”(cap.7). Neste exemplo também optei poro trazer uma implementação mais enxuta sem mostrar os stats monitorados no console, de modo apenas focarmos no processo como um todo do AG.</p>
+
+<pre><code class="language-python">def main():
+    random.seed(94)
+
+    # cria populacao inicial
+    pop = toolbox.population(n=70)
+
+    # CXPB - probabilidade de crossover
+    # MUTPB - probabilidade de mutacao
+    # NGEN - numero de geracoes
+    CXPB, MUTPB, NGEN =0.8, 0.02, 60
+    
+    #stats a serem guardados
+    stats = tools.Statistics(key=lambda ind: ind.fitness.values)
+    stats.register(&quot;std&quot;, numpy.std)
+    stats.register(&quot;min&quot;, numpy.min)
+    stats.register(&quot;avg&quot;, numpy.mean)
+    stats.register(&quot;max&quot;, numpy.max)
+
+    #Roda o algoritmo
+    pop, logbook = algorithms.eaSimple(pop, toolbox, CXPB, MUTPB, NGEN, stats=stats)
+
+    #Seleciona o melhor individuo da populacao resultante
+    best_ind = tools.selSPEA2(pop, 1)
+
+    #Imprime as infromações do melhor individuo
+    print_ind(best_ind[0])
+
+    #Plota o Gráfico
+    plot_log(logbook)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+
+<pre><code>gen nevals  std         min         avg         max   
+0   70      0.279164    -0.794191   0.222211    0.5251
+1   53      0.137051    -0.182224   0.365127    0.521669
+2   57      0.104841    -0.18801    0.433291    0.527247
+3   62      0.0855094   -0.102859   0.466715    0.5277  
+4   61      0.0348315   0.347647    0.498005    0.527777
+5   58      0.0463223   0.270386    0.501738    0.527926
+6   52      0.0528416   0.130146    0.498091    0.527926
+7   50      0.169755    -0.666382   0.48663     0.527952
+8   44      0.0118609   0.458677    0.524036    0.527952
+9   58      0.0480039   0.144649    0.519095    0.527978
+10  61      0.0011975   0.523538    0.527375    0.527978
+11  58      0.000187768 0.527242    0.527867    0.527978
+12  60      0.00671136  0.476925    0.52684     0.527978
+13  58      1.28367e-05 0.527926    0.527958    0.527978
+14  50      0.000147406 0.527242    0.527935    0.527978
+15  62      1.45458e-05 0.527864    0.527974    0.527978
+16  46      1.11022e-16 0.527978    0.527978    0.527978
+17  53      1.11022e-16 0.527978    0.527978    0.527978
+18  58      5.37505e-05 0.527525    0.527971    0.527978
+19  52      0.000526875 0.523538    0.527914    0.527978
+20  66      1.11022e-16 0.527978    0.527978    0.527978
+21  58      1.11022e-16 0.527978    0.527978    0.527978
+22  60      1.11022e-16 0.527978    0.527978    0.527978
+23  61      1.11022e-16 0.527978    0.527978    0.527978
+24  58      1.11022e-16 0.527978    0.527978    0.527978
+25  64      0.000424759 0.524464    0.527917    0.527978
+26  60      1.11022e-16 0.527978    0.527978    0.527978
+27  58      1.11022e-16 0.527978    0.527978    0.527978
+28  52      0.00452791  0.494315    0.527231    0.527978
+29  60      1.11022e-16 0.527978    0.527978    0.527978
+30  64      0.0210769   0.350363    0.52544     0.527978
+31  56      1.11022e-16 0.527978    0.527978    0.527978
+32  56      1.11022e-16 0.527978    0.527978    0.527978
+33  57      1.11022e-16 0.527978    0.527978    0.527978
+34  48      1.11022e-16 0.527978    0.527978    0.527978
+35  56      1.11022e-16 0.527978    0.527978    0.527978
+36  52      1.11022e-16 0.527978    0.527978    0.527978
+37  58      1.11022e-16 0.527978    0.527978    0.527978
+38  52      0.0177761   0.391521    0.525117    0.527978
+39  62      1.11022e-16 0.527978    0.527978    0.527978
+40  56      1.11022e-16 0.527978    0.527978    0.527978
+41  52      1.11022e-16 0.527978    0.527978    0.527978
+42  62      0.000416938 0.524464    0.527927    0.527978
+43  54      0.000107501 0.527072    0.527965    0.527978
+44  64      0.00171128  0.513557    0.527772    0.527978
+45  52      1.11022e-16 0.527978    0.527978    0.527978
+46  58      0.00519679  0.48418     0.527341    0.527978
+47  54      0.00133758  0.516706    0.527817    0.527978
+48  64      1.11022e-16 0.527978    0.527978    0.527978
+49  56      0.0312358   0.264753    0.524217    0.527978
+50  54      0.0316754   0.261049    0.524164    0.527978
+51  52      1.11022e-16 0.527978    0.527978    0.527978
+52  50      1.11022e-16 0.527978    0.527978    0.527978
+53  54      1.11022e-16 0.527978    0.527978    0.527978
+54  56      1.11022e-16 0.527978    0.527978    0.527978
+55  66      1.11022e-16 0.527978    0.527978    0.527978
+56  56      1.11022e-16 0.527978    0.527978    0.527978
+57  54      1.11022e-16 0.527978    0.527978    0.527978
+58  52      0.0140437   0.409631    0.526287    0.527978
+59  45      0.0312358   0.264753    0.524217    0.527978
+60  62      1.11022e-16 0.527978    0.527978    0.527978
+Individuo:[1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0]
+Quantidade de garrafas de leite: 672
+Quantidade de garrafas de suco: 394
+Lucro: 5133.0
+</code></pre>
+
+<p><img src="img/output_14_1.png" alt="png" /></p>
+
+<p>Por hoje é isso. Espero que essa dica tenha ajudado a facilitar a sua vida.</p>
+
+<p>Até mais!</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">ETIQUETADO em</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://johntheo.github.io/tags/deap/">DEAP</a>
+
+  <a class="tag tag--primary tag--small" href="https://johntheo.github.io/tags/python/">python</a>
+
+  <a class="tag tag--primary tag--small" href="https://johntheo.github.io/tags/evolutionary-computing/">evolutionary computing</a>
+
+  <a class="tag tag--primary tag--small" href="https://johntheo.github.io/tags/genetic-algorithm/">genetic algorithm</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="https://johntheo.github.io/2017/06/anaconda-librosa-windows-10/" data-tooltip="Anaconda, Librosa, Windows 10">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml">PRÓXIMO</span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--disabled">
+          
+            <span class="hide-xs hide-sm text-small icon-mr">ANTERIOR</span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https%3a%2f%2fjohntheo.github.io%2f2017%2f04%2ftutorial-deap%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fjohntheo.github.io%2f2017%2f04%2ftutorial-deap%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fjohntheo.github.io%2f2017%2f04%2ftutorial-deap%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+      <li class="post-action">
+        <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <i class="fa fa-comment-o"></i>
+        </a>
+      </li>
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 John Theo. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="6">
+        <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="https://johntheo.github.io/2017/06/anaconda-librosa-windows-10/" data-tooltip="Anaconda, Librosa, Windows 10">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml">PRÓXIMO</span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--disabled">
+          
+            <span class="hide-xs hide-sm text-small icon-mr">ANTERIOR</span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https%3a%2f%2fjohntheo.github.io%2f2017%2f04%2ftutorial-deap%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fjohntheo.github.io%2f2017%2f04%2ftutorial-deap%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fjohntheo.github.io%2f2017%2f04%2ftutorial-deap%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+      <li class="post-action">
+        <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <i class="fa fa-comment-o"></i>
+        </a>
+      </li>
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="6">
+  <ul class="share-options">
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3a%2f%2fjohntheo.github.io%2f2017%2f04%2ftutorial-deap%2f">
+        <i class="fa fa-google-plus"></i><span>Compartilhar no Google Plus</span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fjohntheo.github.io%2f2017%2f04%2ftutorial-deap%2f">
+        <i class="fa fa-facebook-official"></i><span>Compartilhar no Facebook</span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fjohntheo.github.io%2f2017%2f04%2ftutorial-deap%2f">
+        <i class="fa fa-twitter"></i><span>Compartilhar no Twitter</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/2e687bcb036188c2bdfe81b2398d80c3?s=110" alt="Foto do autor" />
+    
+    <h4 id="about-card-name">John Theo</h4>
+    
+      <div id="about-card-bio">Misturando arte com tecnologia para dar novas cores ao cotidiano</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Engenheiro de Computação | Músico | Pesquisador Machine Learning
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Brasil
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Pesquisar" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://johntheo.github.io/2017/06/anaconda-librosa-windows-10/">
+                <h3 class="media-heading">Anaconda, Librosa, Windows 10</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Instalar alguns plugins que utilizam bibliotecas em C, nem sempre é simples com python. Se o ambiente não estiver redondo pode dar alguns problemas chatinhos de compilação.
+Abaixo eu montei um passo-a-passo de como deixar o ambiente OK para instalar qualquer pacote que utilize bibliotecas em C. No meu teste estou utilizando a librosa(biblioteca para processamento de audio), mas pode ser aplicado a qualquer biblioteca como é o caso do theano(biblioteca de deep learning)</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://johntheo.github.io/2017/04/tutorial-deap/">
+                <h3 class="media-heading">Tutorial DEAP</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Problema da fabricação de garrafas TL;DR
+Neste post eu quero mostrar a utilização de um framework para computação evolucionária chamado DEAP(Distributed Evolutionary Algorithms in Python). Como o nome já diz é uma lib de algoritmos evolucionários que podem ser rodados de forma distribuidas. Ah, e é em Python! =)
+Descobri esse framework quando fui buscar uma solução(em Python) que me auxiliasse em alguns trabalhos da disciplina de Computação Evolucionária que estava fazendo no mestrado.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://johntheo.github.io/post/">
+                <h3 class="media-heading">Posts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         3 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://johntheo.github.io/images/ep_naturalblack.png');"></div>
+  
+
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js"></script>
+
+
+<script src="https://johntheo.github.io/js/script-wl33z0n6ocaypepiqrazthtivfrliqijej4rq8ek8gvrv1awftmgjuv8k4zc.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight').each(function(i, block) {
+    var code = "";
+    hljs.highlightAuto(block.innerText).value.split(/\r\n|\r|\n/).forEach(function(line) {
+      code += "<span class=\"line\">" + line + "</span><br>";
+    });
+    if (code.length > 0) {
+      block.innerHTML = code;  
+    }
+  });
+  $('pre > code').each(function(i, block) {
+    $(this).addClass('codeblock');
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/johntheo.github.io\/2017\/04\/tutorial-deap\/';
+          
+            this.page.identifier = '\/2017\/04\/tutorial-deap\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'johntheo-github';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+
+    
+  </body>
+</html>
+
