@@ -1,13 +1,16 @@
 ---
-title: "Tutorial DEAP"
-date: 2017-04-05
+date: '2017-06-02T20:00:00-03:00'
 tags:
 - DEAP
 - python
 - evolutionary computing
 - genetic algorithm
+thumbnailImage: "//deap.readthedocs.io/en/master/_images/deap_long.png"
 thumbnailImagePosition: left
-thumbnailImage: //deap.readthedocs.io/en/master/_images/deap_long.png
+title: Tutorial DEAP
+categories: []
+keywords: []
+
 ---
 # Problema da fabricação de garrafas
 
