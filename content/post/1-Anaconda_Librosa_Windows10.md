@@ -1,16 +1,15 @@
 ---
-title: 'Anaconda, Librosa, Windows 10'
-date: {}
+title: "Anaconda, Librosa, Windows 10"
+date: 2017-06-02
 tags:
-  - librosa
-  - python
-  - dsp
-  - anaconda
-  - c
-  - resampy
+- librosa
+- python
+- dsp
+- anaconda
+- c
+- resampy
 thumbnailImagePosition: left
 thumbnailImage: //avatars1.githubusercontent.com/u/18124827
-published: true
 ---
 
 Instalar alguns plugins que utilizam bibliotecas em C, nem sempre é simples com python. Se o ambiente não estiver redondo pode dar alguns problemas chatinhos de compilação.
@@ -30,4 +29,4 @@ python -m pip install librosa --no-cache-dir
 
 É isso ae pessoal!
 
-Espero que eu tenha ajudado. =)
+Espero que eu tenha ajudado.
