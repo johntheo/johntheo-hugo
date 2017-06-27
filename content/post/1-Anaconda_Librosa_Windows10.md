@@ -1,6 +1,7 @@
 ---
-title: Anaconda, Librosa, Windows 10
-date: '2017-06-02T00:00:00Z'
+categories: []
+date: '2017-06-06T17:15:00-03:00'
+keywords: []
 tags:
 - librosa
 - python
@@ -8,10 +9,9 @@ tags:
 - anaconda
 - c
 - resampy
-thumbnailImagePosition: left
 thumbnailImage: "//avatars1.githubusercontent.com/u/18124827"
-categories: []
-keywords: []
+thumbnailImagePosition: left
+title: Anaconda, Librosa, Windows 10
 
 ---
 
