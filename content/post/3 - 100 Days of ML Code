@@ -1,0 +1,21 @@
+---
+date: '2018-07-07T01:00:00'
+tags:
+- Siraj Raval
+- 100DaysOfMLCode
+- Machine Learning
+thumbnailImage: "https://techgeekszone.files.wordpress.com/2018/07/screen-shot-2018-07-06-at-11-23-57-am.png"
+thumbnailImagePosition: left
+title: 100 Days of ML Code
+categories: [Machine Learning]
+keywords: []
+
+---
+# 100 Days of ML Code
+Hoje foi meu primeiro dia no desafio lançado pelo Siraj de 100 dias de Machine Learning Code. Neste desafio quem "topar"fazer, deve dedicar ao menos 1 hora por dia para estudar/codificar algo relacionado a ML. Espera-se que ao final do desafio a pessoa tenha tenho desenvolvido um projeto ou participado de um relevante.
+
+Hoje comecei com o problema inicial do Kaggle(plataforma de competição para ML).
+
+Vou logar tudo em um repositório próprio: [LINK](https://github.com/johntheo/100_Days_of_ML_Code/blob/master/log.md)
+
+Espero chegar até o final! =)
