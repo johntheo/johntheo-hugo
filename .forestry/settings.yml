@@ -1,0 +1,19 @@
+---
+new_page_extension: md
+auto_deploy: true
+admin_path: 
+webhook_url: 
+sections:
+- path: content
+  label: Pages
+  create: all
+- path: content/post
+  label: Post
+  create: all
+  default_front_matter_template: post
+upload_dir: static/uploads
+public_path: "/uploads"
+front_matter_path: "/uploads"
+use_front_matter_path: false
+file_template: ":year:/:month:/:day:/:filename:"
+version: '0.24'
